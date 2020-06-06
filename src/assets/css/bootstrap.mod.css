@@ -1,0 +1,14 @@
+textarea.form-control {
+    height: 150px;
+    font-size: 0.9rem;
+}
+
+.card-subtitle {
+    font-size: 12px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

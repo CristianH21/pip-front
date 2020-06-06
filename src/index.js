@@ -1,17 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, { useEffect } from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom"
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUsers, faClipboard, faBookOpen, faBars, faUser, faAngleDown, faAngleUp, faCog, faBell, faSignOutAlt, faSpinner, faPlus, faFolder, faUserPlus, faFileAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './assets/css/bootstrap.mod.css'
+import './assets/css/main.css'
+import './assets/css/login.css'
+import Login from './layouts/Login'
+import Dashboard from './layouts/Dashboard'
+import PrivateRoute from './components/Routing/PrivateRoute'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+// Redux
+import { Provider } from 'react-redux'
+import store from './store'
+import { loadUser } from './actions/auth';
+import setAuthToken from './utils/setAuthToken';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+library.add(faUsers, faClipboard, faBookOpen, faBars, faUser, faAngleDown, faAngleUp, faCog, faBell, faSignOutAlt, faSpinner, faPlus, faFolder, faUserPlus, faFileAlt, faTrash);
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+
+const App = () => {
+
+  useEffect(() => {
+    store.dispatch(loadUser(), []);
+  });
+
+  return(
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Login} />
+          <PrivateRoute path='/dashboard' component={Dashboard} />
+          <Route path="**" component={Login} />
+        </Switch>
+      </Router>
+    </Provider>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
