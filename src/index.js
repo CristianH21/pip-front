@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUsers, faClipboard, faBookOpen, faBars, faUser, faAngleDown, faAngleUp, faCog, faBell, faSignOutAlt, faSpinner, faPlus, faFolder, faUserPlus, faFileAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faClipboard, faBookOpen, faBars, faUser, faAngleDown, faAngleUp, faCog, faBell, faSignOutAlt, faSpinner, faPlus, faFolder, faUserPlus, faFileAlt, faTrash, faCheckSquare, faCheck } from '@fortawesome/free-solid-svg-icons'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/bootstrap.mod.css'
 import './assets/css/main.css'
@@ -17,7 +17,7 @@ import store from './store'
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
-library.add(faUsers, faClipboard, faBookOpen, faBars, faUser, faAngleDown, faAngleUp, faCog, faBell, faSignOutAlt, faSpinner, faPlus, faFolder, faUserPlus, faFileAlt, faTrash);
+library.add(faUsers, faClipboard, faBookOpen, faBars, faUser, faAngleDown, faAngleUp, faCog, faBell, faSignOutAlt, faSpinner, faPlus, faFolder, faUserPlus, faFileAlt, faTrash, faCheckSquare, faCheck);
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);

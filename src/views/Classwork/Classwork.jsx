@@ -4,7 +4,7 @@ import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getTeacherClasswork, getStudentsClasswork, createPeriod, createAssignment } from '../../actions/classwork'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup,
-        Input, Label, FormFeedback, Card, CardBody, UncontrolledCollapse, CardHeader } from 'reactstrap';
+        Input, Label, FormFeedback, Card, CardBody, UncontrolledCollapse, CardHeader, Row, Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Classwork = ({
     classwork: {classwork, loading}, user: { role },
@@ -158,70 +158,59 @@ const Classwork = ({
             </div>
             {
                 classwork.map(value => (
-                    <Card key={value.id}>
+                    <Card key={value.id} className="mt-3">
                         <CardHeader>
                             <span>
                                 Perído: {value.name}
                             </span>
-                            <Button color="secondary" size="sm" onClick={() => toggleAssignmentModal(value.id, value.name)}>
-                                <FontAwesomeIcon icon="plus" />
-                            </Button>
-                        </CardHeader>
-                        <CardBody>
                             {
-                                    value.assignments.map(assignment => (
-                                    <Card key={assignment.id}>
-                                        <CardBody>
-                                            <FontAwesomeIcon icon="file-alt"/>{' '}
-                                            <Link to={`/dashboard/asignacion/${assignment.id}`}>
-                                                {assignment.title}
-                                            </Link>
-                                        </CardBody>
-                                    </Card>
-                                    ))
-                                }
+                                role === 'teacher' &&
+                                <Button color="secondary" size="sm" onClick={() => toggleAssignmentModal(value.id, value.name)}>
+                                    <FontAwesomeIcon icon="plus" />
+                                </Button>
+                            }
+                        </CardHeader>
+                        <CardBody className="no-padding">
+                            {
+                                value.assignments.map(assignment => (
+                                    <div key={assignment.id} className="classwork-item">
+                                        <div className="classwork-item__flex">
+                                            <FontAwesomeIcon icon="file-alt" className="classwork-item__icon"/>
+                                            <div>
+                                                <span className="classwork-item__title">
+                                                    <Link to={`/dashboard/asignacion/${assignment.id}`}>
+                                                        {assignment.title}
+                                                    </Link>
+                                                </span>
+                                                <span className="classwork-item__subtitle">
+                                                {
+                                                    assignment.date_registered
+                                                }
+                                                {
+                                                    assignment.delivered != null && ' | Entregado'
+                                                }
+                                                    
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="classwork-item__flex">
+                                            {
+                                               assignment.delivered != null &&  <FontAwesomeIcon icon="check" className="classwork-item__icon__end checked"/>
+                                            }
+                                            {
+                                                role === 'teacher' &&
+                                                <Button color="secondary" size="sm" onClick={() => toggleAssignmentModal(value.id, value.name)}>
+                                                    <FontAwesomeIcon icon="users" />
+                                                </Button>
+                                            }
+                                        </div>
+                                    </div>
+                                ))
+                            }
                         </CardBody>
                     </Card>
                 ))
             }
-            {/* {
-                classworkModal.length > 0 && !loading ?
-                classworkModal.map(cw => (
-                    <div key={cw.id} className="mb-2">
-                        <Card>
-                            <CardHeader className="section">
-                                <span id="1">
-                                    Perído: {cw.name}
-                                </span>
-                                {
-                                    role === 'teacher' && 
-                                    <Button color="secondary" size="sm" onClick={() => toggleAssignmentModal(cw.id, cw.name)}>
-                                        <FontAwesomeIcon icon="plus" />
-                                    </Button>
-                                }
-                            </CardHeader>
-                            <UncontrolledCollapse toggler="#1">
-                                {
-                                    cw.assignments.map(assignment => (
-                                    <Card key={assignment.id}>
-                                        <CardBody>
-                                            <FontAwesomeIcon icon="file-alt"/>{' '}
-                                            <Link to={`/dashboard/asignacion/${assignment.id}`}>
-                                                {assignment.title}
-                                            </Link>
-                                        </CardBody>
-                                    </Card>
-                                    ))
-                                }
-                                 
-                            </UncontrolledCollapse>
-                        </Card>
-                    </div>
-                )) :
-                (
-                    <p>No hay materias.</p>
-                )         
-            } */}
             <div>
                 <Modal isOpen={modal} toggle={toggle}>
                     <ModalHeader toggle={toggle}>Crear período</ModalHeader>

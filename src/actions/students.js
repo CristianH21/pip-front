@@ -124,10 +124,11 @@ export const deleteStudent = (studentId, history) => async dispatch => {
     }
 }
 
-export const uploadAssignment = (file, assignmentId, studentId) => async dispatch => {
-
+export const uploadAssignment = (assignmentForm, assignmentId, studentId) => async dispatch => {
+    
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', assignmentForm.files);
+    formData.append('comment', assignmentForm.comment)
     
     const config = {
         headers: {
